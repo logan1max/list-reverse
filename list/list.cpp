@@ -9,6 +9,7 @@ struct element
 {
 	int data;
 	element* next;
+	element() { data = 0; next = NULL; }
 };
 
 class list
@@ -43,36 +44,37 @@ void list::add(int data)
 
 	temp->data = data;
 
-	element* temp1 = new element;
+	element *temp1=new element;
+	//temp1 = head;
 
-	if (!head)
+	if (head==NULL)
 	{
 		head = temp;
 		head->next = NULL;
 		return;
 	}
-
-	if (!head->next)
+	
+	if (head->next==NULL)
 	{
 		head->next = temp;
 		return;
 	}
 
-	if (head->next)
+	if (head->next!=NULL)
 	{
 		temp1 = head;
-		while (temp1->next)
+		while (temp1->next!=NULL)
 		{
 			temp1 = temp1->next;
 		}
-		temp1 = temp;
+		temp1->next = temp;
+		
 	}
-
 }
 
 void list::ShowList()
 {
-	if (head)
+	if (head!=NULL)
 	{
 		element* temp = new element;
 		temp = head;
