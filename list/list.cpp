@@ -21,7 +21,7 @@ public:
 	~list();
 	void add(int x);
 	void ShowList();
-	list ReverseList(list l);
+	void ReverseList(list &l);
 };
 
 list::list()
@@ -88,44 +88,16 @@ void list::ShowList()
 	else return;
 }
 
-list list::ReverseList(list l)
+void list::ReverseList(list &l)
 {
-	list RevList;
-
-	element* TempRev = new element();
-	element* TempL = new element();
-
-	TempRev = RevList.head;
-	TempL = l.head;
-
-	//add to reverseList first element 
-	while (TempL->next->next)
-	{
-		TempL = TempL->next;
+	element* prev = NULL;
+	for (element* curr = l.head; curr != NULL;) {
+		element* next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
 	}
-
-	TempRev = TempL->next;
-	TempL->next = NULL;
-
-	//how to reset tempL to first element in the list?
-
-	//reverse middle elements
-	while (TempL)
-	{
-		while (TempL->next->next)
-		{
-			TempL = TempL->next;
-		}
-		
-		TempRev->next = TempL->next;
-		TempL->next = NULL;
-		TempRev = TempRev->next;
-	}
-
-	TempRev->next = TempL;
-	TempL = NULL;
-
-	return RevList;
+	l.head = prev;
 }
 
 int main()
