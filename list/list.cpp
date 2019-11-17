@@ -10,11 +10,17 @@ struct element
 	int data;
 	element* next;
 	element() { data = 0; next = NULL; }
+	element(int Data, element* Next) 
+	{
+		data = Data;
+		next = Next;
+	}
 };
 
 class list
 {
 	element* head;
+	int size;
 
 public:
 	list();
@@ -22,6 +28,8 @@ public:
 	void add(int x);
 	void ShowList();
 	void ReverseList(list &l);
+	void ListDouble(list& l);
+	int GetSize() { return size; }
 };
 
 list::list()
@@ -52,12 +60,14 @@ void list::add(int data)
 	{
 		head = temp;
 		head->next = NULL;
+		size++;
 		return;
 	}
 	
 	if (head->next==NULL)
 	{
 		head->next = temp;
+		size++;
 		return;
 	}
 
@@ -69,7 +79,7 @@ void list::add(int data)
 			temp1 = temp1->next;
 		}
 		temp1->next = temp;
-		
+		size++;
 	}
 }
 
@@ -91,13 +101,27 @@ void list::ShowList()
 void list::ReverseList(list &l)
 {
 	element* prev = NULL;
-	for (element* curr = l.head; curr != NULL;) {
+	for (element* curr = l.head; curr != NULL;) 
+	{
 		element* next = curr->next;
 		curr->next = prev;
 		prev = curr;
 		curr = next;
 	}
 	l.head = prev;
+}
+
+void list::ListDouble(list& l)
+{
+	for (element* curr = l.head; curr != NULL;)
+	{
+		element* next = curr->next;
+		element* newElement = new element(curr->data,next);
+		curr->next = newElement;
+		curr = curr->next->next;
+		size++;		
+	}
+//	l.head = temp;
 }
 
 int main()
@@ -108,8 +132,10 @@ int main()
 	l.add(3);
 	l.add(4);
 	l.ShowList();
-	l.ReverseList(l);
+	cout << endl<<l.GetSize()<<endl;
+	l.ListDouble(l);
 	l.ShowList();
+	cout << endl << l.GetSize();
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
