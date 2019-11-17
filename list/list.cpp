@@ -25,16 +25,20 @@ class list
 public:
 	list();
 	~list();
+
+	int GetSize() { return size; }
+
 	void add(int x);
 	void ShowList();
 	void ReverseList(list &l);
 	void ListDouble(list& l);
-	int GetSize() { return size; }
+	void delByIndex(int index);
 };
 
 list::list()
 {
 	head = NULL;
+	size = 0;
 }
 
 list::~list()
@@ -124,6 +128,31 @@ void list::ListDouble(list& l)
 //	l.head = temp;
 }
 
+void list::delByIndex(int index)
+{
+	if (index == 0)
+	{
+		delete head;
+	}
+	else
+	{
+		element* prev = head;
+
+		for (int i = 0; i < index - 1; i++)
+		{
+			prev = prev->next;
+		}
+
+		element* elemDelete = prev->next;
+
+		prev->next = elemDelete->next;
+
+		delete elemDelete;
+		size--;
+		cout << "Prev: " << prev->data << endl;
+	}	
+}
+
 int main()
 {
 	list l;
@@ -132,8 +161,7 @@ int main()
 	l.add(3);
 	l.add(4);
 	l.ShowList();
-	cout << endl<<l.GetSize()<<endl;
-	l.ListDouble(l);
+	l.delByIndex(2);
 	l.ShowList();
 	cout << endl << l.GetSize();
 }
